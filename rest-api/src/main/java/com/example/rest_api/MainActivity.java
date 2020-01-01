@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         next = findViewById(R.id.button1);
         next.setOnClickListener(this);
 
-                textViewResult = findViewById(R.id.text_view_result);
+        textViewResult = findViewById(R.id.text_view_result);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")

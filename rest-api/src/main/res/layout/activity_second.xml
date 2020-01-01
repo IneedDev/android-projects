@@ -6,29 +6,48 @@
     android:layout_height="match_parent"
     tools:context="com.example.rest_api.SecondActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="409dp"
-        android:layout_height="601dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.207"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintVertical_bias="0.519" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="88dp"
-            android:layout_height="wrap_content"
-            android:text="back"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="346dp" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="todo list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.854"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintVertical_bias="0.519" />
 
-        <Button
-            android:id="@+id/button4"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/text_view_result_nbp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Google"
-            tools:layout_editor_absoluteX="158dp"
-            tools:layout_editor_absoluteY="436dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:textColor="#000"
+            tools:layout_conversion_absoluteHeight="19dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_conversion_absoluteWidth="0dp" />
+
+    </androidx.core.widget.NestedScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

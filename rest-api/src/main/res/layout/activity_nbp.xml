@@ -7,10 +7,10 @@ android:layout_height="match_parent"
 tools:context="com.example.rest_api.MainActivity">
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/nbp_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to currancies rates"
+        android:text="Button"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
