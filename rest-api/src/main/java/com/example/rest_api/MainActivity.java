@@ -2,8 +2,12 @@ package com.example.rest_api;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rest_api.model.Post;
 import com.example.rest_api.service.JsonPlaceHolderApi;
@@ -16,15 +20,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
-    private TextView textViewResult;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    TextView textViewResult;
+
+    Button next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textViewResult = findViewById(R.id.text_view_result);
+        next = findViewById(R.id.button1);
+        next.setOnClickListener(this);
+
+                textViewResult = findViewById(R.id.text_view_result);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://jsonplaceholder.typicode.com/")
@@ -35,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         Call<List<Post>> call = jsonPlaceHolderApi.getPosts();
 
-        //threads issue
+//        threads issue
 
         call.enqueue(new Callback<List<Post>>() {
             @Override
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     String content = "";
                     content += "ID: " + post.getId() + "\n";
                     content += "User ID: " + post.getUserId() + "\n";
-                    content += "Title: " + post.getTitle() + "\n";
+//                    content += "Title: " + post.getTitle() + "\n";
                     content += "Text: " + post.getText() + "\n\n";
 
                     textViewResult.append(content);
@@ -64,5 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 textViewResult.setText(t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.button1:
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                startActivity(intent);
+                break;
+            }
+
     }
 }
