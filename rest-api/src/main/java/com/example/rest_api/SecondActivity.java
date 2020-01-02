@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SecondActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button back, google;
-    TextView textViewResultNbp;
+    TextView textViewResultNbp, text_view_result_nbp_right;
 
 
     @Override
@@ -38,7 +38,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 
 
         textViewResultNbp = findViewById(R.id.text_view_result_nbp);
-
+        text_view_result_nbp_right = findViewById(R.id.text_view_result_nbp_right);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nbp.pl/api/exchangerates/tables/A/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -53,13 +53,19 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             public void onResponse(Call<List<Table>>  call, Response<List<Table>>  response) {
                 if (!response.isSuccessful()) {
                     textViewResultNbp.setText("Code " + response.code());
+                    text_view_result_nbp_right.setText("Code " + response.code());
                     return;
                 }
 
                 List<Table> tableList = response.body();
 
                 List<RatesAll> ratesAllList = tableList.get(0).getRatesAlls();
-                textViewResultNbp.append(tableList.toString() + ratesAllList);
+
+                for (RatesAll ratesAll : ratesAllList) {
+                    textViewResultNbp.append(ratesAll.getCode() + "\n");
+                    text_view_result_nbp_right.append(ratesAll.getMid() + "\n");
+
+                }
 
             }
 

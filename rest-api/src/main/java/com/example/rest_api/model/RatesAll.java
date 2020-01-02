@@ -18,4 +18,12 @@ public class RatesAll {
         return mid;
     }
 
+    @Override
+    public String toString() {
+        return "RatesAll{" +
+                "currancy='" + currancy + '\'' +
+                ", code='" + code + '\'' +
+                ", mid='" + mid + '\'' +
+                '}';
+    }
 }
