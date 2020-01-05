@@ -132,6 +132,13 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
 //        Toast.makeText(this, mess, Toast.LENGTH_SHORT).show()
             }
 
+            private void iterateTextView() {
+                for (int i = 0; i < text_view_result_nbp_right.length(); i++) {
+                     text_view_result_nbp_right.getText();
+
+                }
+            }
+
     @Override
     public void onClick(View v) {
 

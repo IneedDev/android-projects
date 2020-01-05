@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.rest_api.model.Post;
 import com.example.rest_api.service.JsonPlaceHolderApi;
@@ -20,10 +19,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textViewResult;
-
-    Button next;
+    Button next, converter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         next = findViewById(R.id.button1);
         next.setOnClickListener(this);
+
+        converter = findViewById(R.id.converter);
+        converter.setOnClickListener(this);
 
         textViewResult = findViewById(R.id.text_view_result);
 
@@ -83,7 +85,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(intent);
                 break;
-            }
+            case R.id.converter:
+                Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
+                startActivity(intent2);
+                break;
+        }
 
     }
 }

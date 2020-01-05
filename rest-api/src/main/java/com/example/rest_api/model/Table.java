@@ -29,4 +29,12 @@ public class Table {
 
         return (tableNme);
     }
+
+    public void setTableNme(String tableNme) {
+        this.tableNme = tableNme;
+    }
+
+    public void setRatesAlls(List<RatesAll> ratesAlls) {
+        this.ratesAlls = ratesAlls;
+    }
 }
