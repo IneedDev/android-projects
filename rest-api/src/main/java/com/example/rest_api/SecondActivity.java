@@ -36,6 +36,8 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
 
+        final DataBaseManager dataBaseManager = new DataBaseManager(this);
+
 
         textViewResultNbp = findViewById(R.id.text_view_result_nbp);
         text_view_result_nbp_right = findViewById(R.id.text_view_result_nbp_right);
@@ -64,7 +66,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 for (RatesAll ratesAll : ratesAllList) {
                     textViewResultNbp.append(ratesAll.getCode() + "\n");
                     text_view_result_nbp_right.append(ratesAll.getMid() + "\n");
-
+                    dataBaseManager.addCurrencyRate(ratesAll.getCode(), ratesAll.getMid());
                 }
 
             }

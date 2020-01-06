@@ -86,8 +86,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.converter:
-                Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
+//                Intent intent2 = new Intent(MainActivity.this, ChartActivity.class);
+
+//                startActivity(intent2);
                 break;
         }
 
