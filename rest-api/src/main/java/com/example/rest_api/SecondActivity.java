@@ -66,7 +66,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
                 for (RatesAll ratesAll : ratesAllList) {
                     textViewResultNbp.append(ratesAll.getCode() + "\n");
                     text_view_result_nbp_right.append(ratesAll.getMid() + "\n");
-                    dataBaseManager.addCurrencyRate(ratesAll.getCode(), ratesAll.getMid());
+                    //dataBaseManager.addCurrencyRate(ratesAll.getCode(), ratesAll.getMid());
                 }
 
             }

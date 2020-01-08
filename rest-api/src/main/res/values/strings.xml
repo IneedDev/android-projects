@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<string name="app_name">MyAndroidApp</string>
+<string name="app_name">Daily App</string>
 <string name="country_prompt">Choose a country</string>
 
 <string-array name="to_currency_arrays">

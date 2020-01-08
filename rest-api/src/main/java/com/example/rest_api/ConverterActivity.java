@@ -1,7 +1,5 @@
 package com.example.rest_api;
 
-import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,13 +9,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rest_api.model.Rates;
 import com.example.rest_api.model.RatesAll;
 import com.example.rest_api.model.Table;
 import com.example.rest_api.service.JsonPlaceHolderApi;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,31 +24,36 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConverterActivity extends AppCompatActivity implements View.OnClickListener {
 
     String fromAmount, toAmount;
-
     Button submit;
     EditText from, to;
-    TextView textHeader;
+    TextView textHeader, result;
     Spinner fromCurrency, toCurrancy;
-
-    List<Table> tableList2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.converter_activity);
 
+
+        final DataBaseManager dataBaseManager = new DataBaseManager(this);
+
+
         submit = findViewById(R.id.btnSubmit);
         submit.setOnClickListener(this);
 
         from = (EditText) findViewById(R.id.from_amount);
-        to = (EditText) findViewById(R.id.to_amount);
 
         toCurrancy =(Spinner) findViewById(R.id.toCurrency);
         fromCurrency = (Spinner) findViewById(R.id.fromCurrency);
 
+        result = (TextView) findViewById(R.id.result);
+
+        getRequestToRatesProvider();
+
     }
 
     private List<Table> getRequestToRatesProvider() {
+        final DataBaseManager dataBaseManager = new DataBaseManager(this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.nbp.pl/api/exchangerates/tables/A/")
@@ -74,8 +74,7 @@ public class ConverterActivity extends AppCompatActivity implements View.OnClick
                 List<Table> tableList = response.body();
                 List<RatesAll> ratesAllList = tableList.get(0).getRatesAlls();
                 for (RatesAll ratesAll : ratesAllList) {
-                    textHeader.append(ratesAll.getCode() + "\n");
-
+                    dataBaseManager.addCurrencyRate(ratesAll.getCode(),ratesAll.getMid());
                 }
             }
 
@@ -94,40 +93,18 @@ public class ConverterActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.btnSubmit:
                 fromAmount = from.getText().toString();
-                toAmount = to.getText().toString();
                 Toast.makeText(ConverterActivity.this, "Convert \nfrom: " + fromAmount +" "+String.valueOf(fromCurrency.getSelectedItem())+
-                        "\nto " + toAmount +" "+String.valueOf(toCurrancy.getSelectedItem()) + "result " + convertCurrency(from.toString(), to.toString())  , Toast.LENGTH_LONG).show();
+                        "\nto " + toAmount +" "+String.valueOf(toCurrancy.getSelectedItem()) + "  result " +  convertCurrency(String.valueOf(fromCurrency.getSelectedItem()),Double.valueOf(fromAmount), String.valueOf(toCurrancy.getSelectedItem())), Toast.LENGTH_LONG).show();
+                result.setText(convertCurrency(String.valueOf(fromCurrency.getSelectedItem()),Double.valueOf(fromAmount), String.valueOf(toCurrancy.getSelectedItem())));
                 break;
         }
 
     }
 
-    private String convertCurrency(String from, String to) {
-
-        List<RatesAll> ratesAllList3 = new ArrayList<>();
-
-
-        int convertion;
-        String tempRate="";
-        int tempRateTo = 0;
-//        100 USD - EUR
-
-//          1 USD - 3,8 PL
-        //  1 EUR - 4 PLN
-
-        //  100 USD - 380 PLN
-
-        //  380 PLN -  95 EUR
-
-
-
-        for (RatesAll ratesAll : ratesAllList3) {
-            if (ratesAll.getCurrancy().equals(to)) {
-                tempRateTo = Integer.parseInt(ratesAll.getCurrancy());
-            }
-        }
-
-
-        return tempRate;
+    private String convertCurrency(String from, Double amount, String to) {
+        final DataBaseManager dataBaseManager = new DataBaseManager(this);
+        return String.valueOf(from).equals("PLN") ? String.valueOf(amount / Double.valueOf(dataBaseManager.getRateValue(to))) : String.valueOf((amount * Double.parseDouble(dataBaseManager.getRateValue(from))) / Double.parseDouble(dataBaseManager.getRateValue(to)));
     }
+
+
 }

@@ -82,14 +82,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.button1:
-                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+
                 startActivity(intent);
+
+
                 break;
             case R.id.converter:
-//                Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
-//                Intent intent2 = new Intent(MainActivity.this, ChartActivity.class);
+                Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
 
-//                startActivity(intent2);
+                startActivity(intent2);
                 break;
         }
 
