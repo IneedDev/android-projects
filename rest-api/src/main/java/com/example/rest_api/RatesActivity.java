@@ -1,18 +1,14 @@
 package com.example.rest_api;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.rest_api.model.Currancy;
-import com.example.rest_api.model.Post;
 import com.example.rest_api.model.RatesAll;
 import com.example.rest_api.model.Table;
 import com.example.rest_api.service.JsonPlaceHolderApi;
@@ -25,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SecondActivity extends AppCompatActivity implements View.OnClickListener {
+public class RatesActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button back, google;
     TextView textViewResultNbp, text_view_result_nbp_right;
@@ -114,7 +110,7 @@ public class SecondActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View v) {
 //                TODO
 //                toggle between activieties
-                Intent intent = new Intent(SecondActivity.this, MainActivity.class);
+                Intent intent = new Intent(RatesActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

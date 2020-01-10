@@ -3,10 +3,19 @@
 
 <string name="app_name">Daily App</string>
 <string name="country_prompt">Choose a country</string>
+    <string name="textview">TextView</string>
+    <string name="converter">Converter</string>
+    <string name="rates">Rates</string>
 
-<string-array name="to_currency_arrays">
+    <string-array name="to_currency_arrays">
     <item>USD</item>
     <item>PLN</item>
+    <item>EUR</item>
+</string-array>
+
+<string-array name="spinner_chart">
+    <item>GBP</item>
+    <item>USD</item>
     <item>EUR</item>
 </string-array>
 

@@ -1,5 +1,6 @@
 package com.example.rest_api;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,9 +25,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ConverterActivity extends AppCompatActivity implements View.OnClickListener {
 
     String fromAmount, toAmount;
-    Button submit;
+    Button submit, btn_check_chart;
     EditText from, to;
-    TextView textHeader, result;
+    TextView textHeader, result, t_chart_min, t_chart_max;
     Spinner fromCurrency, toCurrancy;
 
     @Override
@@ -37,9 +38,11 @@ public class ConverterActivity extends AppCompatActivity implements View.OnClick
 
         final DataBaseManager dataBaseManager = new DataBaseManager(this);
 
-
-        submit = findViewById(R.id.btnSubmit);
+        submit = findViewById(R.id.btn_converter_submit);
         submit.setOnClickListener(this);
+
+        btn_check_chart = findViewById(R.id.btn_check_chart);
+        btn_check_chart.setOnClickListener(this);
 
         from = (EditText) findViewById(R.id.from_amount);
 
@@ -91,11 +94,16 @@ public class ConverterActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnSubmit:
+            case R.id.btn_converter_submit:
                 fromAmount = from.getText().toString();
                 Toast.makeText(ConverterActivity.this, "Convert \nfrom: " + fromAmount +" "+String.valueOf(fromCurrency.getSelectedItem())+
                         "\nto " + toAmount +" "+String.valueOf(toCurrancy.getSelectedItem()) + "  result " +  convertCurrency(String.valueOf(fromCurrency.getSelectedItem()),Double.valueOf(fromAmount), String.valueOf(toCurrancy.getSelectedItem())), Toast.LENGTH_LONG).show();
                 result.setText(convertCurrency(String.valueOf(fromCurrency.getSelectedItem()),Double.valueOf(fromAmount), String.valueOf(toCurrancy.getSelectedItem())));
+                break;
+            case R.id.btn_check_chart:
+                Intent intent = new Intent(ConverterActivity.this, ChartActivity.class);
+                intent.putExtra("cod", String.valueOf(fromCurrency.getSelectedItem()));
+                startActivity(intent);
                 break;
         }
 

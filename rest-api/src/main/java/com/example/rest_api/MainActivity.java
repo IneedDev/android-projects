@@ -22,18 +22,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textViewResult;
-    Button next, converter;
+    Button btn_converter, btn_rates, second;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        next = findViewById(R.id.button1);
-        next.setOnClickListener(this);
 
-        converter = findViewById(R.id.converter);
-        converter.setOnClickListener(this);
+
+        btn_converter = findViewById(R.id.btn_converter);
+        btn_converter.setOnClickListener(this);
+
+        btn_rates = findViewById(R.id.btn_rates);
+        btn_rates.setOnClickListener(this);
 
         textViewResult = findViewById(R.id.text_view_result);
 
@@ -81,15 +83,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.button1:
-//                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+//            case R.id.button1:
+////                Intent intent = new Intent(MainActivity.this, RatesActivity.class);
+//                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+//                final DataBaseManager dataBaseManager = new DataBaseManager(this);
+//
+//
+//                startActivity(intent);
+//
+//
+//                break;
 
-                startActivity(intent);
+            case R.id.btn_rates:
+//                Intent intent = new Intent(MainActivity.this, RatesActivity.class);
+                Intent intent3 = new Intent(MainActivity.this, RatesActivity.class);
+
+                startActivity(intent3);
 
 
                 break;
-            case R.id.converter:
+            case R.id.btn_converter:
                 Intent intent2 = new Intent(MainActivity.this, ConverterActivity.class);
 
                 startActivity(intent2);

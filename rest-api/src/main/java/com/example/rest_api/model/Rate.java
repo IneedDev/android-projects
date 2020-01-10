@@ -1,35 +1,29 @@
 package com.example.rest_api.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Rate {
 
+    private String no;
     private String effectiveDate;
-    @SerializedName("mid")
-    private String midPrice;
+    private String mid;
+
+    public String getNo() {
+        return no;
+    }
 
     public String getEffectiveDate() {
         return effectiveDate;
     }
 
-    public void setEffectiveDate(String effectiveDate) {
-        this.effectiveDate = effectiveDate;
+    public String getMid() {
+        return mid;
     }
-
-    public String getMidPrice() {
-        return midPrice;
-    }
-
-    public void setMidPrice(String midPrice) {
-        this.midPrice = midPrice;
-    }
-
 
     @Override
     public String toString() {
         return "Rate{" +
-                "effectiveDate='" + effectiveDate + '\'' +
-                ", midPrice='" + midPrice + '\'' +
+                "no='" + no + '\'' +
+                ", effectiveDate='" + effectiveDate + '\'' +
+                ", mid='" + mid + '\'' +
                 '}';
     }
 }

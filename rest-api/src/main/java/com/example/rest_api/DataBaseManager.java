@@ -9,11 +9,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataBaseManager extends SQLiteOpenHelper {
 
     public DataBaseManager(@Nullable Context context) {
-        super(context, "DB_CONVERTER", null, 1);
+        super(context, DATABASE_NAME, null, 1);
     }
+
+
+    private static final String DATABASE_NAME = "DB_CONVERTER";
+    private static final String RATES_SPECIFIC = "RATES_SPECIFIC";
+    private static final String RATES = "RATES";
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -24,7 +37,6 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public void addCurrencyRate(String cod, String rate) {
@@ -54,15 +66,14 @@ public class DataBaseManager extends SQLiteOpenHelper {
         return rate;
     }
 
-    public String getRateValueForChart(String currency) {
+    public Cursor getRateValueForChart() {
         SQLiteDatabase database = getReadableDatabase();
-        String rate="";
         Cursor cursor = database.query("RATES_SPECIFIC", new String[] {"RATE"}, null, null, null, null, null );
+        return cursor;
+    }
 
-        if (cursor != null && cursor.moveToFirst()) {
-            cursor.moveToFirst();
-            rate = cursor.getString(cursor.getColumnIndex("RATE"));
-        }
-        return rate;
+    public void truncateRatesSpecificTable(String table) {
+        SQLiteDatabase database = getReadableDatabase();
+        database.execSQL("DELETE FROM "+table+";");
     }
 }

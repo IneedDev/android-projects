@@ -9,14 +9,86 @@
     <com.anychart.AnyChartView
         android:id="@+id/any_chart_view"
         android:layout_width="match_parent"
-        android:layout_height="313dp">
+        android:layout_height="394dp">
 
     </com.anychart.AnyChartView>
 
     <TextView
         android:id="@+id/rates"
         android:layout_width="match_parent"
-        android:layout_height="143dp"
+        android:layout_height="34dp"
         android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="99dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_chart_converter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/converter" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/t_chart_cod"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:text="@string/textview" />
+
+        <LinearLayout
+            android:layout_width="213dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:textDirection="firstStrongLtr">
+
+            <TextView
+                android:id="@+id/t_chart_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/t_chart_value_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="213dp"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:textDirection="firstStrongLtr">
+
+            <TextView
+                android:id="@+id/t_chart_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/t_chart_value_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="2"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

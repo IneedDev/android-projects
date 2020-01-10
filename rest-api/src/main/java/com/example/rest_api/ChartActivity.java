@@ -1,7 +1,11 @@
 package com.example.rest_api;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -13,15 +17,14 @@ import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.anychart.charts.Cartesian;
-import com.anychart.charts.Pie;
 import com.example.rest_api.model.Rate;
-import com.example.rest_api.model.RatesAll;
-import com.example.rest_api.model.Table;
-import com.example.rest_api.model.Table2;
+import com.example.rest_api.model.Rates;
 import com.example.rest_api.service.JsonPlaceHolderApi;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,74 +34,145 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChartActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Spinner urrencyChart;
-    TextView ratesText;
+    TextView ratesText, t_chart_min, t_chart_max, t_chart_value_max, t_chart_value_min;
+    Spinner currency;
+    Button submit_chart;
+    String previous = "";
+
+    private List<String> rateList;
+
+    public ChartActivity() {
+    }
+
+    public List<String> getRateList() {
+        return rateList;
+    }
+
+    public void setRateList(List<String> rateList) {
+        this.rateList = rateList;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chart_activity);
-        AnyChartView anyChartView = (AnyChartView) findViewById(R.id.any_chart_view);
+        DataBaseManager dataBaseManager = new DataBaseManager(this);
 
-        final DataBaseManager dataBaseManager = new DataBaseManager(this);
-
+        Intent intent = getIntent();
 
         ratesText = (TextView) findViewById(R.id.rates);
 
-        Pie pie = AnyChart.pie();
+        submit_chart = findViewById(R.id.btn_chart_converter);
+        submit_chart.setOnClickListener(this);
+
+        currency =(Spinner) findViewById(R.id.spinner_chart);
+
+        getValueFromPreviousIntent(intent);
 
         Cartesian line = AnyChart.line();
+        AnyChartView anyChartView = (AnyChartView) findViewById(R.id.any_chart_view);
 
-        List<DataEntry> data = new ArrayList<>();
+        List<String> rateList = getDataValuesFromDatabase(dataBaseManager);
 
-        for (int i = 0; i < 100; i++) {
-            data.add(new ValueDataEntry(i, i++));
-        }
-
-//        pie.data(data);
-        line.data(data);
-
-//        anyChartView.setChart(pie);
+        line.data(prepareDataValuesForChart(rateList));
         anyChartView.setChart(line);
 
-        getResoinseToRateChart();
+        t_chart_min = findViewById(R.id.t_chart_min);
+        t_chart_min.setText("Minimum");
 
+        t_chart_max = findViewById(R.id.t_chart_max);
+        t_chart_max.setText("Maximum");
 
+        t_chart_value_max = findViewById(R.id.t_chart_value_max);
+        t_chart_value_max.setText(getMaxValue(rateList));
 
-        //dataBaseManager.addCurrencyRateForChart();
+        t_chart_value_min = findViewById(R.id.t_chart_value_min);
+        t_chart_value_min.setText(getMinValue(rateList));
 
+        dataBaseManager.truncateRatesSpecificTable("RATES_SPECIFIC");
 
     }
 
-    public List<Rate> getResoinseToRateChart() {
-        final DataBaseManager dataBaseManager = new DataBaseManager(this);
+    private void getValueFromPreviousIntent(Intent intent) {
+        if (!intent.getStringExtra("cod").isEmpty()) {
+            getResoinseToRateChart(intent.getStringExtra("cod").toLowerCase());
+        } else {
+            getResoinseToRateChart("usd");
+        }
+    }
 
+    private String getMinValue(List<String> list) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            list.sort(Comparator.comparing(String::toString));
+            String min = list.get(0);
+            return min;
+
+        }
+        return null;
+    }
+
+    private String getMaxValue(List<String> list) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            list.sort(Comparator.comparing(String::toString));
+            String max = list.get(list.size()-1);
+            return max;
+
+        }
+        return null;
+    }
+
+    private List<String> getDataValuesFromDatabase(DataBaseManager dataBaseManager) {
+        List<String> sqlList = new ArrayList<>();
+        ChartActivity chartActivity = new ChartActivity();
+
+        Cursor cursor = dataBaseManager.getRateValueForChart();
+        while (cursor.moveToNext()) {
+            sqlList.add(cursor.getString(0));
+        }
+        //ratesText.setText(currency.getSelectedItem().toString() + "   " + previous);
+        chartActivity.setRateList(sqlList);
+        return sqlList;
+    }
+
+    private List<DataEntry> prepareDataValuesForChart(List<String> sqlList) {
+        List<DataEntry> data = new ArrayList<>();
+        for (int i = 0; i < sqlList.size(); i++) {
+            data.add(new ValueDataEntry(i, Double.valueOf(sqlList.get(i))));
+        }
+        return data;
+    }
+
+
+    public Rates getResoinseToRateChart(String cod) {
+        final DataBaseManager dataBaseManager = new DataBaseManager(this);
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.nbp.pl/api/exchangerates/rates/a/gbp/2012-01-01/2012-01-31/")
+                .baseUrl("https://api.nbp.pl/api/exchangerates/rates/a/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         final JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        Call<Rate> call = jsonPlaceHolderApi.getTable2();
-        call.enqueue(new Callback<Rate>() {
+        Call<Rates> call = jsonPlaceHolderApi.getRatesByCodAndDate(cod);
+
+        call.enqueue(new Callback<Rates>() {
             @Override
-            public void onResponse(Call <Rate>  call, Response <Rate> response) {
+            public void onResponse(Call <Rates> call, Response <Rates> response) {
                 if (!response.isSuccessful()) {
-                    ratesText.setText("Code " + response.code());
+                    //ratesText.setText("Code " + response.message());
 
                 }
-                ratesText.setText(response.body().toString());
+                dataBaseManager.truncateRatesSpecificTable("RATES_SPECIFIC");
 
-//                for (Rate rate : rates) {
-//                    dataBaseManager.addCurrencyRateForChart(rate.getMidPrice());
-//                    ratesText.setText(rate.getMidPrice());
-//                }
+                List<Rate> rates = response.body().getRates();
+                for (Rate rate : rates) {
+                    dataBaseManager.addCurrencyRateForChart(rate.getMid());
+//                    ratesText.append(rate.getMid() + "\n");
+                }
             }
 
             @Override
-            public void onFailure(Call<Rate> call, Throwable t) {
-                ratesText.setText(t.getMessage());
+            public void onFailure(Call<Rates> call, Throwable t) {
+                //ratesText.setText(t.getLocalizedMessage());
 
             }
 
@@ -108,6 +182,14 @@ public class ChartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        DataBaseManager dataBaseManager = new DataBaseManager(this);
+        switch (v.getId()) {
+            case R.id.btn_chart_converter:
+                Intent intent = new Intent(ChartActivity.this, ConverterActivity.class);
+                startActivity(intent);
+                break;
+        }
 
     }
+
 }
