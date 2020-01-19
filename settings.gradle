@@ -1,2 +1,2 @@
-include ':app-basic-functionalieties', ':app-basic-func', ':app-basic', ':rest-api', ':myapplication', ':rest-retrofit', ':app-sqllite', ':app-enum', ':spinner-app', 'app-game'
+include ':app-basic-functionalieties', ':app-basic-func', ':app-basic', ':rest-api', ':myapplication', ':rest-retrofit', ':app-sqllite', ':app-enum', ':spinner-app', ':googlemaps', ':googlemaps_markers', 'app-game'
 rootProject.name='emptyproject'

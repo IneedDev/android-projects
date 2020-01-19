@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="com.example.rest_api.MainActivity">
+tools:context="com.example.rest_api.com.rest_api.MainActivity">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -19,8 +19,10 @@ tools:context="com.example.rest_api.MainActivity">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:inputType="textMultiLine"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="Forget this text below its only placeholder for the future extra feature ;) " />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -66,6 +68,22 @@ tools:context="com.example.rest_api.MainActivity">
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="40dp"
                 android:text="@string/rates" />
+            <Button
+                android:id="@+id/btn_maps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="40dp"
+                android:text="maps" />
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="All rights reserved"
+                android:textAlignment="center" />
         </LinearLayout>
 
     </LinearLayout>

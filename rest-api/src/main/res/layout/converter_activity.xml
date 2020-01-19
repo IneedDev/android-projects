@@ -4,15 +4,18 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="com.example.rest_api.ConverterActivity">
+    tools:context="com.example.rest_api.com.rest_api.ConverterActivity">
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textMultiLine"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:text="Change money good price ;) based on NBP real time."
+        android:textAlignment="center" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,21 +54,15 @@
             android:layout_width="wrap_content"
             android:layout_height="75dp"
             android:layout_weight="1"
-            android:text="TextView"
+            android:text="Your result"
             android:textSize="18sp" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_converter_submit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Submit" />
 
     <Button
         android:id="@+id/btn_check_chart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="check currency chart" />
+        android:text="check currency rate" />
 
 
 </LinearLayout>
