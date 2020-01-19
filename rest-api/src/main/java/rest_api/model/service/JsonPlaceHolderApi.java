@@ -1,16 +1,11 @@
 package rest_api.model.service;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import okhttp3.ResponseBody;
 import rest_api.model.Currancy;
 import rest_api.model.Post;
 import rest_api.model.Rates;
 import rest_api.model.Table;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

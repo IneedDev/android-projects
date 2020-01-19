@@ -75,48 +75,16 @@ public class RatesActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
-//        ******** SINGLE CURRANCY  *********
-
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("https://api.nbp.pl/api/exchangerates/rates/a/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-//
-//        Call<Currancy> call = jsonPlaceHolderApi.getCurancy();
-//
-//        call.enqueue(new Callback<Currancy>() {
-//            @Override
-//            public void onResponse(Call<Currancy> call, Response<Currancy> response) {
-//
-//                if (!response.isSuccessful()) {
-//                    textViewResultNbp.setText("Code: " + response.code());
-//                    return;
-//                }
-//
-//                Currancy currancies = response.body();
-//                textViewResultNbp.append(currancies.getCode()+"  " + currancies.getRates().get(0).getMid());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Currancy> call, Throwable t) {
-//                textViewResultNbp.setText(t.getMessage());
-//            }
-//        });
 
         back = findViewById(R.id.button2);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                TODO
-//                toggle between activieties
+
                 Intent intent = new Intent(RatesActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
-
-        //refer to www
 
         google = findViewById(R.id.button4);
         google.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +94,6 @@ public class RatesActivity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
             }
         });
-//
-//        String mess = getIntent().getStringExtra("mess");
-//        Toast.makeText(this, mess, Toast.LENGTH_SHORT).show()
             }
 
             private void iterateTextView() {

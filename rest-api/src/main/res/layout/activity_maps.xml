@@ -26,7 +26,7 @@ tools:context="rest_api.MapsActivity">
     </LinearLayout>
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_maps_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
@@ -42,5 +42,5 @@ tools:context="rest_api.MapsActivity">
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_maps_back" />
 </androidx.constraintlayout.widget.ConstraintLayout>
