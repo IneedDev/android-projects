@@ -26,47 +26,111 @@ public class DataBaseManager extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE RATES (ID INTEGER PRIMARY KEY AUTOINCREMENT, COD TEXT, RATE TEXT);");
         db.execSQL("CREATE TABLE RATES_SPECIFIC (ID INTEGER PRIMARY KEY AUTOINCREMENT, RATE TEXT);");
 
-        db.execSQL("CREATE TABLE STATION (ID_STATION INTEGER PRIMARY KEY, STATION_NAME TEXT, LAT REAL, LON REAL)");
-        db.execSQL("CREATE TABLE STATION_SENSOR (ID_STATION_SENSOR INTEGER PRIMARY KEY, ID_STATION INTEGER, FOREIGN KEY (ID_STATION) REFERENCES STATION (ID_STATION) )");
-
-
         //find all - primary key id 14
-        db.execSQL("CREATE TABLE IF NOT EXISTS findAll (\n" +
-                "    `list_id` INT,\n" +
-                "    `list_stationName` VARCHAR(44),\n" +
-                "    `list_gegrLat` NUMERIC(8, 6),\n" +
-                "    `list_gegrLon` NUMERIC(8, 6),\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS STATION (\n" +
+                "    `list_id` INT UNIQUE,\n" +
+                "    `list_stationName` TEXT,\n" +
+                "    `list_gegrLat` REAL,\n" +
+                "    `list_gegrLon` REAL,\n" +
                 "    `list_city_id` INT,\n" +
-                "    `list_city_name` VARCHAR(23),\n" +
-                "    `list_city_commune_communeName` VARCHAR(23),\n" +
-                "    `list_city_commune_districtName` VARCHAR(23),\n" +
-                "    `list_city_commune_provinceName` VARCHAR(19),\n" +
-                "    `list_addressStreet` VARCHAR(37)\n" +
-                ");");
+                "    `list_city_name` TEXT,\n" +
+                "    `list_city_commune_communeName` TEXT,\n" +
+                "    `list_city_commune_districtName` TEXT,\n" +
+                "    `list_city_commune_provinceName` TEXT,\n" +
+                "    `list_addressStreet` TEXT);");
 
         //foreign key to stationId from find all
         //list_is primary key 92
-        db.execSQL("CREATE TABLE IF NOT EXISTS 14 (\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS MEASURING_STATION (\n" +
                 "    `list_id` INT,\n" +
                 "    `list_stationId` INT,\n" +
-                "    `list_param_paramName` VARCHAR(19) CHARACTER SET utf8,\n" +
-                "    `list_param_paramFormula` VARCHAR(4) CHARACTER SET utf8,\n" +
-                "    `list_param_paramCode` VARCHAR(4) CHARACTER SET utf8,\n" +
-                "    `list_param_idParam` INT\n" +
-                ");");
+                "    `list_param_paramName` TEXT,\n" +
+                "    `list_param_paramFormula` TEXT,\n" +
+                "    `list_param_paramCode` TEXT,\n" +
+                "    `list_param_idParam` INT);");
 
         //foreign key to 92 - dodac kolumne
         //id zwykle to primary key autoincrement
-        db.execSQL("CREATE TABLE IF NOT EXISTS 92 (\n" +
-                "    `key` VARCHAR(4) CHARACTER SET utf8,\n" +
-                "    `values_date` DATETIME,\n" +
-                "    `values_value` NUMERIC(7, 5)\n" +
+        db.execSQL("CREATE TABLE IF NOT EXISTS SENSOR_DATA (\n" +
+                "    `list_id` INT,\n" +
+                "    `key` TEXT,\n" +
+                "    `values_date` TEXT,\n" +
+                "    `values_value` REAL\n" +
                 ");");
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+    public void addSensorDataByStationId(int list_id, String key, String values_date, String values_value) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("list_id", list_id);
+        values.put("key", key);
+        values.put("values_date", values_date);
+        values.put("values_value", values_value);
+
+        database.insert("SENSOR_DATA", null, values);
+    }
+
+    public void addFindAllData( int id,
+                                String stationName,
+                                String gegrLat,
+                                String gegrLon,
+                                int list_city_id,
+                                String list_city_name,
+                                String list_city_commune_communeName,
+                                String list_city_commune_districtName,
+                                String list_city_commune_provinceName,
+                                String list_addressStreet ) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("list_id", id);
+        values.put("list_stationName", stationName);
+        values.put("list_gegrLat", gegrLat);
+        values.put("list_gegrLon", gegrLon);
+
+        values.put("list_city_id", list_city_id);
+        values.put("list_city_name", list_city_name);
+        values.put("list_city_commune_communeName", list_city_commune_communeName);
+        values.put("list_city_commune_districtName", list_city_commune_districtName);
+        values.put("list_city_commune_provinceName", list_city_commune_provinceName);
+
+        values.put("list_addressStreet", list_addressStreet);
+
+
+        database.insert("STATION", null, values);
+    }
+
+    public void addDataStationById( int list_id,
+                                    int list_stationId,
+                                    String list_param_paramName,
+                                    String list_param_paramFormula,
+                                    String list_param_paramCode,
+                                    int list_param_idParam) {
+
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("list_id", list_id);
+        values.put("list_stationId", list_stationId);
+        values.put("list_param_paramName", list_param_paramName);
+        values.put("list_param_paramFormula", list_param_paramFormula);
+
+        values.put("list_param_paramCode", list_param_paramCode);
+        values.put("list_param_idParam", list_param_idParam);
+
+        database.insert("MEASURING_STATION", null, values);
+
+    }
+
+    public int getTableCount(String tableName) {
+        SQLiteDatabase database = getReadableDatabase();
+        ContentValues values = new ContentValues();
+        int count = 0;
+        Cursor cursor = database.query(tableName, null, null,null, null, null, null);
+        return cursor.getCount();
     }
 
     public void addCurrencyRate(String cod, String rate) {

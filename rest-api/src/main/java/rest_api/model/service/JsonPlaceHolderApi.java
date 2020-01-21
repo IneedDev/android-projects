@@ -1,6 +1,9 @@
 package rest_api.model.service;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+
 import rest_api.model.Currancy;
 import rest_api.model.Post;
 import rest_api.model.Rates;
@@ -29,5 +32,11 @@ public interface JsonPlaceHolderApi {
 
     @GET("findAll?format=json")
     Call<JsonArray> getAllStations();
+
+    @GET("{stationId}?format=json")
+    Call<JsonArray> getDataByStationId(@Path("stationId") int stationId);
+
+    @GET("{stationId}?format=json")
+    Call<JsonObject> getSensorDataByStationId(@Path("stationId") int stationId);
 
 }
